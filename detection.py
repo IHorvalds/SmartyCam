@@ -33,7 +33,7 @@ class CamController():
 
     def __changeMode__(self, mode):
         self.mode = mode ### Mathias? you know your codes
-        # self.console.write(modes[self.mode])
+        self.console.write(modes[self.mode])
 
     def distanceFromCenter(self, face, img):
         rows,cols,_     = img.shape
