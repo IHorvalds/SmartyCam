@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2
 import numpy
 import serial as ser
@@ -32,7 +33,7 @@ class CamController():
 
     def __changeMode__(self, mode):
         self.mode = mode ### Mathias? you know your codes
-        self.console.write(modes[self.mode])
+        # self.console.write(modes[self.mode])
 
     def distanceFromCenter(self, face, img):
         rows,cols,_     = img.shape
@@ -44,14 +45,16 @@ class CamController():
     def moveXY(self, img, face):
         rows,cols,_ = img.shape
         center      = (cols/2, rows/2)
-        delta = distanceFromCenter(face, img)
+        delta = self.distanceFromCenter(face, img)
         if abs(delta[0]) > 5:
             # write to console to move x (delta[0]/abs(delta[0])) ### sending only ±1º at a time bc idc about perfect resolution
             dist = (delta[0]/abs(delta[0]))
+            # print(dist)
             self.console.write("X" + str(dist))
         if abs(delta[1]) > 5:
             # write to console to move y (delta[1]/abs(delta[1]))
             dist = (delta[1]/abs(delta[1]))
+            # print(dist)
             self.console.write("Y" + str(dist))
 
 def main():
@@ -70,7 +73,8 @@ def main():
             if camController.mode == "auto":
                 try:
                     camController.moveXY(img, faces[0])
-                except:
+                except Exception as e:
+                    print(e)
                     pass
             elif camController.mode == "manual":
                 pass
